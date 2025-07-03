@@ -3,7 +3,7 @@
 #include "StarTextureAtlas.hpp"
 #include "StarRenderer.hpp"
 
-#include "GL/glew.h"
+#include <glad/glad.h>
 
 namespace Star {
 
