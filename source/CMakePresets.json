@@ -154,11 +154,13 @@
         "value": "wasm32",
         "strategy": "external"
       },
+      "toolchainFile": "${sourceParentDir}/toolchains/emscripten.cmake",
       "cacheVariables": {
         "CMAKE_MAKE_PROGRAM": "ninja",
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-        "CMAKE_TOOLCHAIN_FILE": "${sourceParentDir}/toolchains/emscripten.cmake",
-        "VCPKG_TARGET_TRIPLET": "wasm32-web"
+        "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "wasm32-web",
+        "STAR_LITTLE_ENDIAN": true
       }
     }
   ],
