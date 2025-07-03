@@ -2,6 +2,7 @@
 #include "StarJsonExtra.hpp"
 #include "StarCasting.hpp"
 #include "StarLogging.hpp"
+#include "SDL3/SDL.h"
 
 namespace Star {
 
@@ -90,11 +91,10 @@ static void GLAPIENTRY GlMessageCallback(GLenum, GLenum type, GLuint, GLenum, GL
 */
 
 OpenGlRenderer::OpenGlRenderer() {
-  auto glewResult = glewInit();
-  if (glewResult != GLEW_OK && glewResult != GLEW_ERROR_NO_GLX_DISPLAY)
-    throw RendererException::format("Could not initialize GLEW: {}", (char*)glewGetErrorString(glewResult));
+  if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
+    throw RendererException("Could not initialize GLAD");
 
-  if (!GLEW_VERSION_2_0)
+  if (!GLAD_GL_VERSION_2_0)
     throw RendererException("OpenGL 2.0 not available!");
 
   Logger::info("OpenGL version: '{}' vendor: '{}' renderer: '{}' shader: '{}'",
@@ -107,7 +107,7 @@ OpenGlRenderer::OpenGlRenderer() {
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glDisable(GL_DEPTH_TEST);
-  if (GLEW_VERSION_4_3) {
+  if (GLAD_GL_VERSION_4_3) {
     //glEnable(GL_DEBUG_OUTPUT);
     //glDebugMessageCallback(GlMessageCallback, this);
   }
@@ -151,7 +151,7 @@ OpenGlRenderer::GlFrameBuffer::GlFrameBuffer(Json const& fbConfig) : config(fbCo
   if (texture->textureId == 0)
     throw RendererException("Could not generate OpenGL texture for framebuffer");
 
-  multisample = GLEW_VERSION_4_0 ? config.getUInt("multisample", 0) : 0;
+  multisample = GLAD_GL_VERSION_4_0 ? config.getUInt("multisample", 0) : 0;
   GLenum target = multisample ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D;
   glBindTexture(target, texture->glTextureId());
 

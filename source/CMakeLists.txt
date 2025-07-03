@@ -476,13 +476,19 @@ find_package(ZLIB REQUIRED)
 find_package(PNG REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(Opus CONFIG REQUIRED)
-find_package(OggVorbis REQUIRED)
+set(STAR_OGGVORBIS_LIBS "")
+set(STAR_OGGVORBIS_INCLUDE "")
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+  find_package(OggVorbis REQUIRED)
+  set(STAR_OGGVORBIS_LIBS ${VORBISFILE_LIBRARY} ${VORBIS_LIBRARY} ${OGG_LIBRARY})
+  set(STAR_OGGVORBIS_INCLUDE ${OGGVORBIS_INCLUDE_DIR})
+endif()
 find_package(zstd CONFIG REQUIRED)
 find_package(re2 CONFIG REQUIRED)
 find_package(imgui CONFIG REQUIRED)
 include_directories(SYSTEM
     ${FREETYPE_INCLUDE_DIRS}
-    ${OGGVORBIS_INCLUDE_DIR}
+    ${STAR_OGGVORBIS_INCLUDE}
 )
 
 set(STAR_EXT_LIBS ${STAR_EXT_LIBS}
@@ -493,9 +499,7 @@ set(STAR_EXT_LIBS ${STAR_EXT_LIBS}
     Opus::opus
     re2::re2
     imgui::imgui
-    ${VORBISFILE_LIBRARY}
-    ${VORBIS_LIBRARY}
-    ${OGG_LIBRARY}
+    ${STAR_OGGVORBIS_LIBS}
 )
 
 pkg_check_modules(PKG_WAYLAND "wayland-client>=1.18" wayland-egl wayland-cursor egl "xkbcommon>=0.5.0")
@@ -521,12 +525,11 @@ if(STAR_BUILD_GUI)
   )
 
   find_package(OpenGL REQUIRED)
-  find_package(GLEW REQUIRED)
+  find_package(glad CONFIG REQUIRED)
 
-  include_directories(SYSTEM ${GLEW_INCLUDE_DIR})
   set(STAR_EXT_GUI_LIBS ${STAR_EXT_GUI_LIBS}
       ${OPENGL_LIBRARY}
-      GLEW::glew_s
+      glad::glad
   )
 
   if(STAR_SYSTEM_MACOS)

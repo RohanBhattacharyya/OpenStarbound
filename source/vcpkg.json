@@ -1,18 +1,18 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "dependencies": [
-    "glew",
+    "glad",
     { "name": "sdl3", "default-features": false, "features": ["wayland", "x11", "alsa", "ibus"], "platform": "linux" },
     { "name": "sdl3", "platform": "!linux" },
     { "name": "cpptrace", "platform": "!windows & !wasm32" },
-    "libvorbis",
+    { "name": "libvorbis", "platform": "!wasm32" },
     "zlib",
     { "name": "freetype", "default-features": false, "features": ["png", "zlib"] },
     "libpng",
     "opus",
     "zstd",
-    "mimalloc",
-    { "name": "jemalloc", "platform": "!osx" },
+    { "name": "mimalloc", "platform": "!wasm32" },
+    { "name": "jemalloc", "platform": "!osx & !wasm32" },
     "re2",
     { "name": "abseil", "features": ["cxx17"] },
     { "name": "imgui", "features": ["sdl3-binding", "opengl3-binding"] }
