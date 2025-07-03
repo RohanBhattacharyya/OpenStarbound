@@ -258,3 +258,12 @@ LD_LIBRARY_PATH="$LD_LIBRARY_PATH:./" padsp ./starbound "$@"`
 
   </details>
 </details>
+<details>
+  <summary><b>WebAssembly (experimental)</b></summary>
+
+  * Install the [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html) and activate it.
+  * From the `source` directory run `cmake --preset web-release` followed by `cmake --build --preset web-release`.
+  * Copy the generated `starbound.js` and `starbound.wasm` to the `web/` folder.
+  * Serve the `web/` directory with a web server and open `index.html` in your browser. When prompted, upload your `assets.pak` file.
+
+</details>

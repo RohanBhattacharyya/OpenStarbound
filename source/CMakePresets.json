@@ -9,7 +9,10 @@
     {
       "name": "base",
       "hidden": true,
-      "architecture": { "value": "x64", "strategy": "external" },
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
       "generator": "Ninja",
       "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
       "cacheVariables": {
@@ -27,7 +30,14 @@
           "remoteSourceRootDir": "$env{HOME}/.vs/wsl",
           "copySourcesOptions": {
             "method": "rsync",
-            "exclusionList": [ ".vs", ".git", "out", "dist", "attic", "build" ]
+            "exclusionList": [
+              ".vs",
+              ".git",
+              "out",
+              "dist",
+              "attic",
+              "build"
+            ]
           }
         }
       }
@@ -48,7 +58,9 @@
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [ "Windows" ]
+          "hostOS": [
+            "Windows"
+          ]
         }
       }
     },
@@ -74,7 +86,9 @@
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [ "Linux" ]
+          "hostOS": [
+            "Linux"
+          ]
         },
         "microsoft.com/VisualStudioRemoteSettings/CMake/2.0": {
           "sourceRootDir": "$ms{localSourceDir}\\..",
@@ -111,7 +125,9 @@
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [ "macOS" ]
+          "hostOS": [
+            "macOS"
+          ]
         }
       }
     },
@@ -120,10 +136,29 @@
       "name": "macos-arm-release",
       "displayName": "macOS ARM",
       "binaryDir": "${sourceParentDir}/build/macos-arm-release",
-      "architecture": { "value": "arm64", "strategy": "external" },
+      "architecture": {
+        "value": "arm64",
+        "strategy": "external"
+      },
       "cacheVariables": {
         "VCPKG_TARGET_TRIPLET": "arm64-osx-mixed",
         "CMAKE_LIBRARY_PATH": "${sourceParentDir}/lib/osx/arm64;${sourceParentDir}/lib/osx"
+      }
+    },
+    {
+      "inherits": "base",
+      "name": "web-release",
+      "displayName": "WebAssembly",
+      "binaryDir": "${sourceParentDir}/build/web-release",
+      "architecture": {
+        "value": "wasm32",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_MAKE_PROGRAM": "ninja",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceParentDir}/toolchains/emscripten.cmake",
+        "VCPKG_TARGET_TRIPLET": "wasm32-web"
       }
     }
   ],
@@ -161,14 +196,24 @@
     {
       "name": "macos-arm-release",
       "configurePreset": "macos-arm-release"
+    },
+    {
+      "name": "web-release",
+      "configurePreset": "web-release"
     }
   ],
   "testPresets": [
     {
       "name": "base",
       "hidden": true,
-      "output": { "outputOnFailure": true },
-      "filter": { "include": { "label": "NoAssets" } }
+      "output": {
+        "outputOnFailure": true
+      },
+      "filter": {
+        "include": {
+          "label": "NoAssets"
+        }
+      }
     },
     {
       "inherits": "base",
@@ -190,6 +235,11 @@
       "inherits": "base",
       "name": "macos-arm-release",
       "configurePreset": "macos-arm-release"
+    },
+    {
+      "inherits": "base",
+      "name": "web-release",
+      "configurePreset": "web-release"
     }
   ]
 }
